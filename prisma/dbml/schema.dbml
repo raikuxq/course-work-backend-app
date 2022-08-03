@@ -10,19 +10,99 @@ Table User {
   password String [not null]
   firstname String
   lastname String
-  posts Post [not null]
+  channelsAuthor Channel [not null]
+  channelsMember UserOnChannel [not null]
+  issueTrackerMember IssueTrackerMember [not null]
   role Role [not null]
 }
 
-Table Post {
+Table Channel {
   id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  published Boolean [not null]
   title String [not null]
-  content String
-  author User
-  authorId String
+  description String
+  trackers IssueTracker [not null]
+  categories ChannelCategory [not null]
+  author User [not null]
+  authorId String [not null]
+  members UserOnChannel [not null]
+  inviteLink String [unique, not null]
+}
+
+Table UserOnChannel {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User [not null]
+  userId String [not null]
+  channel Channel [not null]
+  channelId String [not null]
+}
+
+Table ChannelCategory {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  title String [not null]
+  channel Channel [not null]
+  channelId String [not null]
+  trackers IssueTracker [not null]
+}
+
+Table IssueTrackerMember {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User [not null]
+  userId String [not null]
+  tracker IssueTracker [not null]
+  trackerId String [not null]
+  reportsAuthor IssueReport [not null]
+  reportsResponsible IssueReport [not null]
+  role MemberRole [not null]
+  comments Comment [not null]
+}
+
+Table IssueTracker {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  channel Channel [not null]
+  channelId String [not null]
+  category ChannelCategory [not null]
+  categoryId String [not null]
+  member IssueTrackerMember [not null]
+  reports IssueReport [not null]
+}
+
+Table IssueReport {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  tracker IssueTracker [not null]
+  trackerId String [not null]
+  author IssueTrackerMember [not null]
+  authorId String [not null]
+  responsiblePerson IssueTrackerMember [not null]
+  responsiblePersonId String [not null]
+  title String [not null]
+  description String
+  priority IssueReportPriority [not null]
+  status IssueReportStatus [not null]
+  type IssueReportType [not null]
+  comments Comment [not null]
+}
+
+Table Comment {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  content String [not null]
+  report IssueReport [not null]
+  reportId String [not null]
+  author IssueTrackerMember [not null]
+  authorId String [not null]
 }
 
 Enum Role {
@@ -30,4 +110,56 @@ Enum Role {
   USER
 }
 
-Ref: Post.authorId > User.id
+Enum MemberRole {
+  GUEST
+  DEV
+  QA
+}
+
+Enum IssueReportStatus {
+  FULFILMENT
+  DISCUSSION
+  TO_APPROVE
+  READY
+  CLOSED
+}
+
+Enum IssueReportPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
+Enum IssueReportType {
+  FUNCTIONALITY
+  UI
+  VULNERABILITY
+  REPORTING
+}
+
+Ref: Channel.authorId > User.id
+
+Ref: UserOnChannel.userId > User.id
+
+Ref: UserOnChannel.channelId > Channel.id
+
+Ref: ChannelCategory.channelId > Channel.id
+
+Ref: IssueTrackerMember.userId > User.id
+
+Ref: IssueTrackerMember.trackerId > IssueTracker.id
+
+Ref: IssueTracker.channelId > Channel.id
+
+Ref: IssueTracker.categoryId > ChannelCategory.id
+
+Ref: IssueReport.trackerId > IssueTracker.id
+
+Ref: IssueReport.authorId > IssueTrackerMember.id
+
+Ref: IssueReport.responsiblePersonId > IssueTrackerMember.id
+
+Ref: Comment.reportId > IssueReport.id
+
+Ref: Comment.authorId > IssueTrackerMember.id

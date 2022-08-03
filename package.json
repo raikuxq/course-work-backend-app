@@ -1,24 +1,4 @@
 {
-  "name": "nestjs-prisma-client-starter",
-  "version": "0.0.1",
-  "description": "NestJS Prisma Client Starter Project",
-  "author": "Marc Stammerjohann",
-  "license": "MIT",
-  "keywords": [
-    "nestjs",
-    "prisma",
-    "prisma client",
-    "typescript",
-    "passport",
-    "graphql"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example/issues"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -37,6 +17,7 @@
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate",
     "prisma:generate:watch": "npx prisma generate --watch",
+    "prisma:format": "npx prisma format",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -67,6 +48,7 @@
     "bcrypt": "5.0.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
+    "global": "^4.4.0",
     "graphql": "^15.6.0",
     "graphql-scalars": "^1.14.1",
     "graphql-subscriptions": "1.2.1",
@@ -75,11 +57,9 @@
     "passport-jwt": "4.0.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
-    "rxjs": "7.5.2",
     "swagger-ui-express": "4.3.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "8.2.0",
     "@nestjs/testing": "8.2.5",
     "@types/bcrypt": "5.0.0",
     "@types/chance": "1.1.3",
