@@ -6,7 +6,6 @@ import { Channel } from './models/channel.model';
 import { UserEntity } from '../../common/decorators/user.decorator';
 import { User } from '../users/models/user.model';
 import { CreateChannelInput } from './dto/createChannel.input';
-import { UserIdArgs } from '../../common/args/user-id.args';
 
 @Resolver()
 export class ChannelResolver {
@@ -21,8 +20,15 @@ export class ChannelResolver {
     return this.channelService.createChannel(user.id, data);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Channel])
-  userChannels(@Args() id: UserIdArgs) {
-    return this.channelService.userChannels(id);
+  userChannels(@UserEntity() user: User) {
+    return this.channelService.userChannels(user.id);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => Channel)
+  channel(@Args('id') id: string) {
+    return this.channelService.getChannelById(id);
   }
 }

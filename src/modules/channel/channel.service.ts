@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateChannelInput } from './dto/createChannel.input';
 import { PrismaService } from 'nestjs-prisma';
 import { INVITE_LINK_LENGTH } from '../../common/settings/constants';
-import { UserIdArgs } from '../../common/args/user-id.args';
 
 @Injectable()
 export class ChannelService {
@@ -22,9 +21,13 @@ export class ChannelService {
     });
   }
 
-  async userChannels(id: UserIdArgs) {
-    return this.prisma.user
-      .findUnique({ where: { id: id.userId } })
-      .channelsAuthor();
+  async userChannels(id: string) {
+    return this.prisma.user.findUnique({ where: { id } }).channelsAuthor();
+  }
+
+  async getChannelById(id: string) {
+    return this.prisma.channel.findUnique({
+      where: { id },
+    });
   }
 }
