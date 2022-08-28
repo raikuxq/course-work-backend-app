@@ -18,6 +18,7 @@ input ChangePasswordInput {
 
 type Channel {
   author: User!
+  categories: [ChannelCategory!]!
 
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
@@ -31,7 +32,42 @@ type Channel {
   updatedAt: DateTime!
 }
 
-input CreateChannelInput {
+type ChannelCategory {
+  channel: Channel!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  title: String!
+  trackers: [Tracker!]!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+input ChannelCategoryCreateInput {
+  channelId: String!
+  title: String!
+}
+
+input ChannelCategoryUpdateInput {
+  title: String!
+}
+
+input ChannelCreateInput {
+  description: String!
+  title: String!
+}
+
+input ChannelJoinToInput {
+  inviteLink: String!
+}
+
+input ChannelLeaveInput {
+  channelId: String!
+}
+
+input ChannelUpdateInput {
   description: String!
   title: String!
 }
@@ -53,10 +89,20 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createChannel(data: CreateChannelInput!): Channel!
+  channelCategoryCreate(data: ChannelCategoryCreateInput!): Channel!
+  channelCategoryDelete(id: String!): ID!
+  channelCategoryUpdate(data: ChannelCategoryUpdateInput!, id: String!): Channel!
+  channelCreate(data: ChannelCreateInput!): Channel!
+  channelDelete(id: String!): ID!
+  channelJoinTo(data: ChannelJoinToInput!): Channel!
+  channelLeave(data: ChannelLeaveInput!): ID!
+  channelUpdate(data: ChannelUpdateInput!, id: String!): Channel!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
+  trackerCreate(data: TrackerCreateInput!): Tracker!
+  trackerDelete(id: String!): ID!
+  trackerUpdate(data: TrackerUpdateInput!, id: String!): Tracker!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -85,6 +131,33 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: JWT!
+}
+
+type Tracker {
+  category: ChannelCategory!
+  channel: Channel!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  title: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+input TrackerCreateInput {
+  channelCategoryId: String
+  channelId: String!
+  description: String
+  title: String!
+}
+
+input TrackerUpdateInput {
+  channelCategoryId: String
+  description: String
+  title: String
 }
 
 input UpdateUserInput {
