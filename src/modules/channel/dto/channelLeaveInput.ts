@@ -2,11 +2,8 @@ import { IsNotEmpty } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateChannelInput {
-  @Field()
-  description: string;
-
+export class ChannelLeaveInput {
   @Field()
   @IsNotEmpty()
-  title: string;
+  channelId: string;
 }
