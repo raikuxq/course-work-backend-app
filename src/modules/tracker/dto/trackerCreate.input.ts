@@ -1,16 +1,19 @@
 import { IsNotEmpty } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
-import { TrackerMember } from '../models/tracker-member.model';
 
 @InputType()
-export class CreatePostInput {
-  @Field()
-  description: string;
-
+export class TrackerCreateInput {
   @Field()
   @IsNotEmpty()
   title: string;
 
   @Field()
-  members: [TrackerMember];
+  channelId: string;
+
+  @Field()
+  channelCategoryId?: string;
+
+  @Field()
+  @IsNotEmpty()
+  description?: string;
 }

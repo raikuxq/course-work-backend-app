@@ -1,14 +1,15 @@
-import { GraphQLModule } from '@nestjs/graphql';
+import config from 'src/common/configs/config';
 import { Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
+import { GqlConfigService } from './gql-config.service';
+import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { UsersModule } from 'src/modules/users/users.module';
-import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GqlConfigService } from './gql-config.service';
 import { ChannelModule } from './modules/channel/channel.module';
-import config from 'src/common/configs/config';
+import { TrackerModule } from './modules/tracker/tracker.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import config from 'src/common/configs/config';
     AuthModule,
     UsersModule,
     ChannelModule,
+    TrackerModule,
   ],
 })
 export class AppModule {}
