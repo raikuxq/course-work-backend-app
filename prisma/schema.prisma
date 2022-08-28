@@ -75,15 +75,17 @@ model IssueTrackerMember {
 }
 
 model IssueTracker {
-  id         String               @id @default(cuid())
-  createdAt  DateTime             @default(now())
-  updatedAt  DateTime             @updatedAt
-  channel    Channel              @relation(fields: [channelId], references: [id])
-  channelId  String
-  category   ChannelCategory      @relation(fields: [categoryId], references: [id])
-  categoryId String
-  member     IssueTrackerMember[]
-  reports    IssueReport[]
+  id          String               @id @default(cuid())
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  channel     Channel              @relation(fields: [channelId], references: [id])
+  channelId   String
+  category    ChannelCategory      @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  members     IssueTrackerMember[]
+  reports     IssueReport[]
+  title       String
+  description String?
 }
 
 model IssueReport {

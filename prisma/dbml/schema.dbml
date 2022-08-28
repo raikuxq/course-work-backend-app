@@ -72,8 +72,10 @@ Table IssueTracker {
   channelId String [not null]
   category ChannelCategory [not null]
   categoryId String [not null]
-  member IssueTrackerMember [not null]
+  members IssueTrackerMember [not null]
   reports IssueReport [not null]
+  title String [not null]
+  description String
 }
 
 Table IssueReport {
