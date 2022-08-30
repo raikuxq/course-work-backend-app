@@ -99,9 +99,12 @@ type Mutation {
   channelJoin(data: ChannelJoinToInput!): Channel!
   channelLeave(data: ChannelLeaveInput!): ID!
   channelUpdate(data: ChannelUpdateInput!, id: String!): Channel!
+  trackerAddMember(data: TrackerAddMemberInput!): Tracker!
   trackerCreate(data: TrackerCreateInput!): Tracker!
   trackerDelete(id: String!): ID!
+  trackerRemoveMember(data: TrackerRemoveMemberInput!): Tracker!
   trackerUpdate(data: TrackerUpdateInput!, id: String!): Tracker!
+  trackerUpdateMemberRole(data: TrackerAddMemberInput!): Tracker!
   userChangePassword(data: ChangePasswordInput!): User!
   userUpdate(data: UpdateUserInput!): User!
 }
@@ -142,10 +145,17 @@ type Tracker {
   createdAt: DateTime!
   description: String!
   id: ID!
+  members: [TrackerMember!]!
   title: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
+}
+
+input TrackerAddMemberInput {
+  role: TrackerMemberRole!
+  trackerId: String!
+  userId: String!
 }
 
 input TrackerCreateInput {
@@ -153,6 +163,29 @@ input TrackerCreateInput {
   channelId: String!
   description: String
   title: String!
+}
+
+type TrackerMember {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  role: TrackerMemberRole!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  user: User!
+}
+
+"""Tracker member role"""
+enum TrackerMemberRole {
+  DEV
+  GUEST
+  QA
+}
+
+input TrackerRemoveMemberInput {
+  trackerId: String!
+  userId: String!
 }
 
 input TrackerUpdateInput {
