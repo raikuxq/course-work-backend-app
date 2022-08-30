@@ -1,0 +1,6 @@
+export enum EnumIssueReportType {
+  FUNCTIONALITY = 'FUNCTIONALITY',
+  UI = 'UI',
+  VULNERABILITY = 'VULNERABILITY',
+  REPORTING = 'REPORTING',
+}

@@ -77,6 +77,64 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type IssueReport {
+  author: TrackerMember!
+  createdAt: DateTime!
+  description: String!
+  id: String!
+  priority: IssueReportPriority!
+  responsiblePerson: TrackerMember!
+  status: IssueReportStatus!
+  title: String!
+  tracker: Tracker!
+  type: IssueReportType!
+  updatedAt: DateTime!
+}
+
+input IssueReportCreateInput {
+  description: String!
+  priority: IssueReportPriority!
+  responsiblePersonId: String!
+  status: IssueReportStatus!
+  title: String!
+  trackerId: String!
+  type: IssueReportType!
+}
+
+"""Issue report priority"""
+enum IssueReportPriority {
+  CRITICAL
+  HIGH
+  LOW
+  NORMAL
+}
+
+"""Issue report status"""
+enum IssueReportStatus {
+  CLOSED
+  DISCUSSION
+  FULFILMENT
+  READY
+  TO_APPROVE
+}
+
+"""Issue report type"""
+enum IssueReportType {
+  FUNCTIONALITY
+  REPORTING
+  UI
+  VULNERABILITY
+}
+
+input IssueReportUpdateInput {
+  description: String
+  priority: IssueReportPriority
+  responsiblePersonId: String
+  status: IssueReportStatus
+  title: String
+  type: IssueReportType
+}
+
 """
 A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
 """
@@ -99,6 +157,9 @@ type Mutation {
   channelJoin(data: ChannelJoinToInput!): Channel!
   channelLeave(data: ChannelLeaveInput!): ID!
   channelUpdate(data: ChannelUpdateInput!, id: String!): Channel!
+  issueReportCreate(data: IssueReportCreateInput!): IssueReport!
+  issueReportDelete(id: String!): ID!
+  issueReportUpdate(data: IssueReportUpdateInput!, id: String!): IssueReport!
   trackerAddMember(data: TrackerAddMemberInput!): Tracker!
   trackerCreate(data: TrackerCreateInput!): Tracker!
   trackerDelete(id: String!): ID!
@@ -111,6 +172,7 @@ type Mutation {
 
 type Query {
   channel(id: String!): Channel!
+  issueReport(id: String!): IssueReport!
   tracker(id: String!): Tracker!
   userChannels: [Channel!]!
   userCurrent: User!
@@ -146,6 +208,7 @@ type Tracker {
   description: String!
   id: ID!
   members: [TrackerMember!]!
+  reports: [IssueReport!]!
   title: String!
 
   """Identifies the date and time when the object was last updated."""

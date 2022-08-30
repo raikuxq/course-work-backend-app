@@ -10,6 +10,7 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { UsersModule } from 'src/modules/users/users.module';
 import { ChannelModule } from './modules/channel/channel.module';
 import { TrackerModule } from './modules/tracker/tracker.module';
+import { IssueReportModule } from './modules/issueReport/IssueReport.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TrackerModule } from './modules/tracker/tracker.module';
     UsersModule,
     ChannelModule,
     TrackerModule,
+    IssueReportModule,
   ],
 })
 export class AppModule {}

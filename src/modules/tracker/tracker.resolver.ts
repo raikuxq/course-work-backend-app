@@ -123,4 +123,10 @@ export class TrackerResolver {
   async members(@Parent() tracker: Tracker) {
     return this.trackerService.membersResolver(tracker.id);
   }
+
+  @UseGuards(GqlAuthGuard)
+  @ResolveField('reports')
+  async reports(@Parent() tracker: Tracker) {
+    return this.trackerService.reportsResolver(tracker.id);
+  }
 }

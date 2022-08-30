@@ -110,4 +110,10 @@ export class TrackerService {
       .findUnique({ where: { id: trackerId } })
       .members();
   }
+
+  async reportsResolver(trackerId: string) {
+    return await this.prisma.issueTracker
+      .findUnique({ where: { id: trackerId } })
+      .reports();
+  }
 }

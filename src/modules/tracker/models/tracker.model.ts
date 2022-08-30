@@ -3,6 +3,7 @@ import { BaseModel } from 'src/common/models/base.model';
 import { ChannelCategory } from '../../channelCategory/models/channelCategory.model';
 import { Channel } from '../../channel/models/channel.model';
 import { TrackerMember } from '../../trackerMember/models/trackerMember.model';
+import { IssueReport } from '../../issueReport/models/issueReport';
 
 @ObjectType()
 export class Tracker extends BaseModel {
@@ -11,4 +12,5 @@ export class Tracker extends BaseModel {
   channel: Channel;
   category: ChannelCategory;
   members: TrackerMember[];
+  reports: IssueReport[];
 }
