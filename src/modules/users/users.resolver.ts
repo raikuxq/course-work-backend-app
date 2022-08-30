@@ -13,22 +13,22 @@ export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
   @Query(() => User)
-  async me(@UserEntity() user: User): Promise<User> {
+  async userCurrent(@UserEntity() user: User): Promise<User> {
     return user;
   }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  async updateUser(
+  async userUpdate(
     @UserEntity() user: User,
     @Args('data') newUserData: UpdateUserInput
   ) {
-    return this.usersService.updateUser(user.id, newUserData);
+    return this.usersService.update(user.id, newUserData);
   }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  async changePassword(
+  async userChangePassword(
     @UserEntity() user: User,
     @Args('data') changePassword: ChangePasswordInput
   ) {

@@ -3,6 +3,7 @@ import {
   ID,
   Mutation,
   Parent,
+  Query,
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
@@ -18,6 +19,12 @@ import { TrackerUpdateInput } from './dto/trackerUpdate.input';
 @Resolver(() => Tracker)
 export class TrackerResolver {
   constructor(private trackerService: TrackerService) {}
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => Tracker)
+  async tracker(@UserEntity() user: User, @Args('id') id: string) {
+    return await this.trackerService.get(id);
+  }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Tracker)

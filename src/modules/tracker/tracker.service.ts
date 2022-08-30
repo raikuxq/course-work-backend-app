@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { TrackerCreateInput } from './dto/trackerCreate.input';
 import { TrackerUpdateInput } from './dto/trackerUpdate.input';
@@ -23,7 +23,9 @@ export class TrackerService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to create trackers');
+      throw new ForbiddenException(
+        'Only author have access to create trackers'
+      );
     }
 
     return this.prisma.issueTracker.create({
@@ -50,7 +52,9 @@ export class TrackerService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to update trackers');
+      throw new ForbiddenException(
+        'Only author have access to update trackers'
+      );
     }
 
     return await this.prisma.issueTracker.update({
@@ -79,7 +83,7 @@ export class TrackerService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to delete tracker');
+      throw new ForbiddenException('Only author have access to delete tracker');
     }
 
     return await this.prisma.issueTracker.delete({

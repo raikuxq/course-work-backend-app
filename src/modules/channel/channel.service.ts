@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ChannelCreateInput } from './dto/channelCreateInput';
 import { PrismaService } from 'nestjs-prisma';
 import { INVITE_LINK_LENGTH } from '../../common/settings/constants';
@@ -12,7 +12,19 @@ export class ChannelService {
     private userOnChannelService: UserOnChannelService
   ) {}
 
-  async createChannel(userId: string, data: ChannelCreateInput) {
+  async get(id: string) {
+    return this.prisma.channel.findUnique({
+      where: { id },
+    });
+  }
+
+  async getByUser(userId: string) {
+    return this.prisma.user
+      .findUnique({ where: { id: userId } })
+      .channelsAuthor();
+  }
+
+  async create(userId: string, data: ChannelCreateInput) {
     const crypto = await import('crypto');
     const inviteLink = crypto.randomBytes(INVITE_LINK_LENGTH).toString('hex');
 
@@ -34,7 +46,9 @@ export class ChannelService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to update channels');
+      throw new ForbiddenException(
+        'Only author have access to update channels'
+      );
     }
 
     return await this.prisma.channel.update({
@@ -56,7 +70,9 @@ export class ChannelService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to create categories');
+      throw new ForbiddenException(
+        'Only author have access to create categories'
+      );
     }
 
     return await this.prisma.channel.delete({
@@ -66,19 +82,7 @@ export class ChannelService {
     });
   }
 
-  async userChannels(userId: string) {
-    return this.prisma.user
-      .findUnique({ where: { id: userId } })
-      .channelsAuthor();
-  }
-
-  async getChannelById(id: string) {
-    return this.prisma.channel.findUnique({
-      where: { id },
-    });
-  }
-
-  async joinUser(userId: string, inviteLink: string) {
+  async join(userId: string, inviteLink: string) {
     const channel = await this.prisma.channel.findUnique({
       where: {
         inviteLink,
@@ -92,7 +96,7 @@ export class ChannelService {
     return channel;
   }
 
-  async leaveUser(userId: string, channelId) {
+  async leave(userId: string, channelId) {
     return await this.userOnChannelService.removeUserFromChannel(
       userId,
       channelId

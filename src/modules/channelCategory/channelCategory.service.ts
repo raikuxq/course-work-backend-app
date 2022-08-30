@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { ChannelCategoryCreateInput } from './dto/channelCategoryCreateInput';
 import { ChannelCategoryUpdateInput } from './dto/channelCategoryUpdateInput';
@@ -23,7 +23,9 @@ export class ChannelCategoryService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to create categories');
+      throw new ForbiddenException(
+        'Only author have access to create categories'
+      );
     }
 
     return this.prisma.channelCategory.create({
@@ -52,7 +54,9 @@ export class ChannelCategoryService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to create categories');
+      throw new ForbiddenException(
+        'Only author have access to create categories'
+      );
     }
 
     return await this.prisma.channelCategory.update({
@@ -79,7 +83,9 @@ export class ChannelCategoryService {
     });
 
     if (channel.authorId !== userId) {
-      throw new Error('Only author have access to create categories');
+      throw new ForbiddenException(
+        'Only author have access to create categories'
+      );
     }
 
     return await this.prisma.channelCategory.delete({

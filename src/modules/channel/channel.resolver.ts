@@ -32,7 +32,7 @@ export class ChannelResolver {
     @UserEntity() user: User,
     @Args('data') data: ChannelCreateInput
   ) {
-    return this.channelService.createChannel(user.id, data);
+    return this.channelService.create(user.id, data);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -56,22 +56,22 @@ export class ChannelResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => [Channel])
   userChannels(@UserEntity() user: User) {
-    return this.channelService.userChannels(user.id);
+    return this.channelService.getByUser(user.id);
   }
 
   @UseGuards(GqlAuthGuard)
   @Query(() => Channel)
   channel(@Args('id') id: string) {
-    return this.channelService.getChannelById(id);
+    return this.channelService.get(id);
   }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Channel)
-  async channelJoinTo(
+  async channelJoin(
     @UserEntity() user: User,
     @Args('data') data: ChannelJoinToInput
   ) {
-    return this.channelService.joinUser(user.id, data.inviteLink);
+    return this.channelService.join(user.id, data.inviteLink);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -80,7 +80,7 @@ export class ChannelResolver {
     @UserEntity() user: User,
     @Args('data') data: ChannelLeaveInput
   ) {
-    await this.channelService.leaveUser(user.id, data.channelId);
+    await this.channelService.leave(user.id, data.channelId);
 
     return data.channelId;
   }

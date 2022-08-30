@@ -17,7 +17,7 @@ export class AuthResolver {
   constructor(private readonly auth: AuthService) {}
 
   @Mutation(() => Auth)
-  async signup(@Args('data') data: SignupInput) {
+  async authSignup(@Args('data') data: SignupInput) {
     data.email = data.email.toLowerCase();
     const { accessToken, refreshToken } = await this.auth.createUser(data);
     return {
@@ -27,7 +27,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Auth)
-  async login(@Args('data') { email, password }: LoginInput) {
+  async authLogin(@Args('data') { email, password }: LoginInput) {
     const { accessToken, refreshToken } = await this.auth.login(
       email.toLowerCase(),
       password
@@ -40,7 +40,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Token)
-  async refreshToken(@Args() { token }: RefreshTokenInput) {
+  async authRefreshToken(@Args() { token }: RefreshTokenInput) {
     return this.auth.refreshToken(token);
   }
 
