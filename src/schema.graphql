@@ -149,9 +149,9 @@ type Mutation {
   authLogin(data: LoginInput!): Auth!
   authRefreshToken(token: JWT!): Token!
   authSignup(data: SignupInput!): Auth!
-  channelCategoryCreate(data: ChannelCategoryCreateInput!): Channel!
+  channelCategoryCreate(data: ChannelCategoryCreateInput!): ChannelCategory!
   channelCategoryDelete(id: String!): ID!
-  channelCategoryUpdate(data: ChannelCategoryUpdateInput!, id: String!): Channel!
+  channelCategoryUpdate(data: ChannelCategoryUpdateInput!, id: String!): ChannelCategory!
   channelCreate(data: ChannelCreateInput!): Channel!
   channelDelete(id: String!): ID!
   channelJoin(data: ChannelJoinToInput!): Channel!

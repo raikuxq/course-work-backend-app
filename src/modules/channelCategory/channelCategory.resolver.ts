@@ -22,7 +22,7 @@ export class ChannelCategoryResolver {
   constructor(private channelCategoryService: ChannelCategoryService) {}
 
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Channel)
+  @Mutation(() => ChannelCategory)
   async channelCategoryCreate(
     @UserEntity() user: User,
     @Args('data') data: ChannelCategoryCreateInput
@@ -31,7 +31,7 @@ export class ChannelCategoryResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Channel)
+  @Mutation(() => ChannelCategory)
   async channelCategoryUpdate(
     @UserEntity() user: User,
     @Args('id') id: string,
