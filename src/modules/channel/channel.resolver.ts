@@ -18,6 +18,7 @@ import { ChannelJoinToInput } from './dto/channelJoinTo.input';
 import { PrismaService } from 'nestjs-prisma';
 import { ChannelLeaveInput } from './dto/channelLeaveInput';
 import { ChannelUpdateInput } from './dto/channelUpdate.input';
+import { UserOnChannel } from '../userOnChannel/models/userOnChannel.model';
 
 @Resolver(() => Channel)
 export class ChannelResolver {
@@ -60,7 +61,7 @@ export class ChannelResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Query(() => [Channel])
+  @Query(() => [UserOnChannel])
   userChannelsMemberOf(@UserEntity() user: User) {
     return this.channelService.getByMember(user.id);
   }
