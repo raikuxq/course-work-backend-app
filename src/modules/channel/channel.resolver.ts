@@ -55,8 +55,14 @@ export class ChannelResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [Channel])
-  userChannels(@UserEntity() user: User) {
-    return this.channelService.getByUser(user.id);
+  userChannelsOwn(@UserEntity() user: User) {
+    return this.channelService.getByAuthor(user.id);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Channel])
+  userChannelsMemberOf(@UserEntity() user: User) {
+    return this.channelService.getByMember(user.id);
   }
 
   @UseGuards(GqlAuthGuard)

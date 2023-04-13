@@ -18,10 +18,16 @@ export class ChannelService {
     });
   }
 
-  async getByUser(userId: string) {
+  async getByAuthor(userId: string) {
     return this.prisma.user
       .findUnique({ where: { id: userId } })
       .channelsAuthor();
+  }
+
+  async getByMember(userId: string) {
+    return this.prisma.user
+      .findUnique({ where: { id: userId } })
+      .channelsMember();
   }
 
   async create(userId: string, data: ChannelCreateInput) {
