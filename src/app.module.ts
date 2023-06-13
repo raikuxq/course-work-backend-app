@@ -11,6 +11,7 @@ import { UsersModule } from 'src/modules/users/users.module';
 import { ChannelModule } from './modules/channel/channel.module';
 import { TrackerModule } from './modules/tracker/tracker.module';
 import { IssueReportModule } from './modules/issueReport/IssueReport.module';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { IssueReportModule } from './modules/issueReport/IssueReport.module';
     ChannelModule,
     TrackerModule,
     IssueReportModule,
+    CommentModule,
   ],
 })
 export class AppModule {}

@@ -72,6 +72,28 @@ input ChannelUpdateInput {
   title: String!
 }
 
+type Comment {
+  author: TrackerMember!
+  content: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  report: IssueReport!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+input CommentCreateInput {
+  content: String!
+  issueReportId: String!
+}
+
+input CommentUpdateInput {
+  content: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -79,6 +101,7 @@ scalar DateTime
 
 type IssueReport {
   author: TrackerMember!
+  comments: [Comment!]!
   createdAt: DateTime!
   description: String!
   id: String!
@@ -157,6 +180,9 @@ type Mutation {
   channelJoin(data: ChannelJoinToInput!): Channel!
   channelLeave(data: ChannelLeaveInput!): ID!
   channelUpdate(data: ChannelUpdateInput!, id: String!): Channel!
+  commentCreate(data: CommentCreateInput!): Comment!
+  commentDelete(id: String!): ID!
+  commentUpdate(data: CommentUpdateInput!, id: String!): Comment!
   issueReportCreate(data: IssueReportCreateInput!): IssueReport!
   issueReportDelete(id: String!): ID!
   issueReportUpdate(data: IssueReportUpdateInput!, id: String!): IssueReport!
@@ -172,9 +198,11 @@ type Mutation {
 
 type Query {
   channel(id: String!): Channel!
+  comment(id: String!): Comment!
   issueReport(id: String!): IssueReport!
   tracker(id: String!): Tracker!
-  userChannels: [Channel!]!
+  userChannelsMemberOf: [UserOnChannel!]!
+  userChannelsOwn: [Channel!]!
   userCurrent: User!
 }
 
@@ -273,4 +301,16 @@ type User {
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
+}
+
+type UserOnChannel {
+  channel: Channel!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  user: User!
 }

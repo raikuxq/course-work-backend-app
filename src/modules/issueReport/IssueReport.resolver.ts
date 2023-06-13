@@ -70,4 +70,10 @@ export class IssueReportResolver {
   async responsiblePerson(@Parent() issueReport: IssueReport) {
     return this.issueReportService.responsiblePersonResolver(issueReport.id);
   }
+
+  @UseGuards(GqlAuthGuard)
+  @ResolveField('comments')
+  async comments(@Parent() issueReport: IssueReport) {
+    return this.issueReportService.commentsResolver(issueReport.id);
+  }
 }

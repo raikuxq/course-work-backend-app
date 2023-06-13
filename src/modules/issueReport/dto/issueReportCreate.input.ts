@@ -7,18 +7,23 @@ import { EnumIssueReportPriority } from '../enums/EnumIssueReportPriority';
 @InputType()
 export class IssueReportCreateInput {
   @Field()
+  @IsNotEmpty()
   responsiblePersonId: string;
 
   @Field()
+  @IsNotEmpty()
   trackerId: string;
 
   @Field(() => EnumIssueReportType)
+  @IsNotEmpty()
   type: EnumIssueReportType;
 
   @Field(() => EnumIssueReportStatus)
+  @IsNotEmpty()
   status: EnumIssueReportStatus;
 
   @Field(() => EnumIssueReportPriority)
+  @IsNotEmpty()
   priority: EnumIssueReportPriority;
 
   @Field()

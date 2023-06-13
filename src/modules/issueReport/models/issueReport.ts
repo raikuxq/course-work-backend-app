@@ -6,6 +6,7 @@ import { EnumIssueReportStatus } from '../enums/EnumIssueReportStatus';
 import { EnumIssueReportType } from '../enums/EnumIssueReportType';
 import { TrackerMember } from '../../trackerMember/models/trackerMember.model';
 import { IsNotEmpty } from 'class-validator';
+import { Comment } from '../../comment/models/comment.model';
 
 registerEnumType(EnumIssueReportPriority, {
   name: 'IssueReportPriority',
@@ -48,4 +49,7 @@ export class IssueReport extends BaseModel {
 
   @Field()
   description: string;
+
+  @Field(() => [Comment])
+  comments: Comment[];
 }

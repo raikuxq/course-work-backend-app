@@ -81,4 +81,14 @@ export class IssueReportService {
       .findUnique({ where: { id: issueReportId } })
       .tracker();
   }
+
+  async commentsResolver(issueReportId: string) {
+    const comments = await this.prisma.issueReport
+      .findUnique({ where: { id: issueReportId } })
+      .comments();
+
+    console.log(comments);
+
+    return comments;
+  }
 }
