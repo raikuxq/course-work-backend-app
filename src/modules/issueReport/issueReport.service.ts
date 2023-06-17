@@ -24,7 +24,7 @@ export class IssueReportService {
     });
 
     const tracker = await this.trackerService.get(issueReport.trackerId);
-    const channel = await this.channelService.get(tracker.channelId);
+    const channel = await this.channelService.get(userId, tracker.channelId);
     const memberRole = await this.trackerMemberService.getMemberRole(
       tracker.id,
       userId

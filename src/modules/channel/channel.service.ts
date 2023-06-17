@@ -12,10 +12,18 @@ export class ChannelService {
     private userOnChannelService: UserOnChannelService
   ) {}
 
-  async get(id: string) {
-    return this.prisma.channel.findUnique({
-      where: { id },
-    });
+  async get(userId: string, id: string) {
+    const channel = await this.prisma.channel.findUnique({ where: { id } });
+    const members = await this.membersResolver(id);
+
+    const isAuthor = channel.authorId === userId;
+    const isMember = members.some((membersItem) => membersItem.id === userId);
+
+    if (!isAuthor && !isMember) {
+      throw new Error('Only author and members can get access to this channel');
+    }
+
+    return channel;
   }
 
   async getByAuthor(userId: string) {
@@ -69,31 +77,23 @@ export class ChannelService {
   }
 
   async delete(userId: string, channelId: string) {
-    try {
-      const channel = await this.prisma.channel.findUnique({
-        where: {
-          id: channelId,
-        },
-      });
+    const channel = await this.prisma.channel.findUnique({
+      where: {
+        id: channelId,
+      },
+    });
 
-      console.log('channel found');
-
-      if (channel.authorId !== userId) {
-        throw new ForbiddenException(
-          'Only author have access to delete channels'
-        );
-      }
-
-      console.log('user is author');
-
-      return await this.prisma.channel.delete({
-        where: {
-          id: channelId,
-        },
-      });
-    } catch (e) {
-      console.log(e);
+    if (channel.authorId !== userId) {
+      throw new ForbiddenException(
+        'Only author have access to delete channels'
+      );
     }
+
+    return await this.prisma.channel.delete({
+      where: {
+        id: channelId,
+      },
+    });
   }
 
   async join(userId: string, inviteLink: string) {
