@@ -142,26 +142,26 @@ Enum IssueReportType {
 
 Ref: Channel.authorId > User.id
 
-Ref: UserOnChannel.userId > User.id
+Ref: UserOnChannel.userId > User.id [delete: Cascade]
 
-Ref: UserOnChannel.channelId > Channel.id
+Ref: UserOnChannel.channelId > Channel.id [delete: Cascade]
 
-Ref: ChannelCategory.channelId > Channel.id
+Ref: ChannelCategory.channelId > Channel.id [delete: Cascade]
 
-Ref: IssueTrackerMember.userId > User.id
+Ref: IssueTrackerMember.userId > User.id [delete: Cascade]
 
-Ref: IssueTrackerMember.trackerId > IssueTracker.id
+Ref: IssueTrackerMember.trackerId > IssueTracker.id [delete: Cascade]
 
-Ref: IssueTracker.channelId > Channel.id
+Ref: IssueTracker.channelId > Channel.id [delete: Cascade]
 
 Ref: IssueTracker.categoryId > ChannelCategory.id
 
-Ref: IssueReport.trackerId > IssueTracker.id
+Ref: IssueReport.trackerId > IssueTracker.id [delete: Cascade]
 
 Ref: IssueReport.authorId > IssueTrackerMember.id
 
 Ref: IssueReport.responsiblePersonId > IssueTrackerMember.id
 
-Ref: Comment.reportId > IssueReport.id
+Ref: Comment.reportId > IssueReport.id [delete: Cascade]
 
-Ref: Comment.authorId > IssueTrackerMember.id
+Ref: Comment.authorId > IssueTrackerMember.id [delete: Cascade]

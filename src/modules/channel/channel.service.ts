@@ -69,23 +69,31 @@ export class ChannelService {
   }
 
   async delete(userId: string, channelId: string) {
-    const channel = await this.prisma.channel.findUnique({
-      where: {
-        id: channelId,
-      },
-    });
+    try {
+      const channel = await this.prisma.channel.findUnique({
+        where: {
+          id: channelId,
+        },
+      });
 
-    if (channel.authorId !== userId) {
-      throw new ForbiddenException(
-        'Only author have access to delete channels'
-      );
+      console.log('channel found');
+
+      if (channel.authorId !== userId) {
+        throw new ForbiddenException(
+          'Only author have access to delete channels'
+        );
+      }
+
+      console.log('user is author');
+
+      return await this.prisma.channel.delete({
+        where: {
+          id: channelId,
+        },
+      });
+    } catch (e) {
+      console.log(e);
     }
-
-    return await this.prisma.channel.delete({
-      where: {
-        id: channelId,
-      },
-    });
   }
 
   async join(userId: string, inviteLink: string) {
