@@ -86,8 +86,8 @@ Table IssueReport {
   trackerId String [not null]
   author IssueTrackerMember [not null]
   authorId String [not null]
-  responsiblePerson IssueTrackerMember [not null]
-  responsiblePersonId String [not null]
+  responsiblePerson IssueTrackerMember
+  responsiblePersonId String
   title String [not null]
   description String
   priority IssueReportPriority [not null]
@@ -140,7 +140,7 @@ Enum IssueReportType {
   REPORTING
 }
 
-Ref: Channel.authorId > User.id
+Ref: Channel.authorId > User.id [delete: Cascade]
 
 Ref: UserOnChannel.userId > User.id [delete: Cascade]
 
@@ -154,7 +154,7 @@ Ref: IssueTrackerMember.trackerId > IssueTracker.id [delete: Cascade]
 
 Ref: IssueTracker.channelId > Channel.id [delete: Cascade]
 
-Ref: IssueTracker.categoryId > ChannelCategory.id
+Ref: IssueTracker.categoryId > ChannelCategory.id [delete: Cascade]
 
 Ref: IssueReport.trackerId > IssueTracker.id [delete: Cascade]
 

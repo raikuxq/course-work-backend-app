@@ -34,7 +34,7 @@ model Channel {
   description String?
   trackers    IssueTracker[]
   categories  ChannelCategory[]
-  author      User              @relation(fields: [authorId], references: [id])
+  author      User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String
   members     UserOnChannel[]
   inviteLink  String            @unique
@@ -80,7 +80,7 @@ model IssueTracker {
   updatedAt   DateTime             @updatedAt
   channel     Channel              @relation(fields: [channelId], references: [id], onDelete: Cascade)
   channelId   String
-  category    ChannelCategory      @relation(fields: [categoryId], references: [id])
+  category    ChannelCategory      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId  String
   members     IssueTrackerMember[]
   reports     IssueReport[]
@@ -96,8 +96,8 @@ model IssueReport {
   trackerId           String
   author              IssueTrackerMember  @relation(name: "IssueReport_author", fields: [authorId], references: [id])
   authorId            String
-  responsiblePerson   IssueTrackerMember  @relation(name: "IssueReport_responsiblePerson", fields: [responsiblePersonId], references: [id])
-  responsiblePersonId String
+  responsiblePerson   IssueTrackerMember? @relation(name: "IssueReport_responsiblePerson", fields: [responsiblePersonId], references: [id])
+  responsiblePersonId String?
   title               String
   description         String?
   priority            IssueReportPriority
