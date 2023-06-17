@@ -9,14 +9,14 @@ const config: Config = {
   },
   swagger: {
     enabled: true,
-    title: 'Nestjs FTW',
-    description: 'The nestjs API description',
-    version: '1.5',
+    title: 'BugTracker GQL API',
+    description: '',
+    version: '1.6',
     path: 'api',
   },
   graphql: {
     playgroundEnabled: false,
-    debug: true,
+    debug: false,
     schemaDestination: './src/schema.graphql',
     sortSchema: true,
   },
