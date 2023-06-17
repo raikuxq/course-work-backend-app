@@ -6,6 +6,28 @@ import { UserRoleEnum } from './enums/user-role.enum';
 export class TrackerMemberService {
   constructor(private prisma: PrismaService) {}
 
+  async get(trackerId: string, userId: string) {
+    return await this.prisma.issueTrackerMember.findFirst({
+      where: {
+        trackerId,
+        userId,
+      },
+    });
+  }
+
+  async getMemberRole(
+    trackerId: string,
+    userId: string
+  ): Promise<UserRoleEnum | null> {
+    try {
+      const member = await this.get(trackerId, userId);
+
+      return member.role as UserRoleEnum;
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  }
+
   async addMember(
     currentUserId: string,
     userToAddId: string,

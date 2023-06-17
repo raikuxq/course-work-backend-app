@@ -5,6 +5,7 @@ import { TrackerMemberModule } from '../trackerMember/trackerMember.module';
 
 @Module({
   providers: [TrackerResolver, TrackerService],
+  exports: [TrackerService],
   imports: [TrackerMemberModule],
 })
 export class TrackerModule {}

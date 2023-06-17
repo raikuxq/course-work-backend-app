@@ -8,14 +8,12 @@ import {
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
-import { Channel } from '../channel/models/channel.model';
 import { UserEntity } from '../../common/decorators/user.decorator';
 import { User } from '../users/models/user.model';
 import { ChannelCategoryService } from './channelCategory.service';
 import { ChannelCategoryCreateInput } from './dto/channelCategoryCreateInput';
 import { ChannelCategoryUpdateInput } from './dto/channelCategoryUpdateInput';
 import { ChannelCategory } from './models/channelCategory.model';
-import { Tracker } from '../tracker/models/tracker.model';
 
 @Resolver(() => ChannelCategory)
 export class ChannelCategoryResolver {

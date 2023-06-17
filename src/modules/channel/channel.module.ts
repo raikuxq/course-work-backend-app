@@ -6,6 +6,7 @@ import { ChannelCategoryModule } from '../channelCategory/channelCategory.module
 
 @Module({
   providers: [ChannelResolver, ChannelService],
+  exports: [ChannelService],
   imports: [UserOnChannelModule, ChannelCategoryModule],
 })
 export class ChannelModule {}

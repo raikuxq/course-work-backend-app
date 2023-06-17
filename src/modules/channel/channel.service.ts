@@ -77,7 +77,7 @@ export class ChannelService {
 
     if (channel.authorId !== userId) {
       throw new ForbiddenException(
-        'Only author have access to create categories'
+        'Only author have access to delete channels'
       );
     }
 

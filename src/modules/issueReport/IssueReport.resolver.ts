@@ -23,7 +23,7 @@ export class IssueReportResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => IssueReport)
   async issueReport(@UserEntity() user: User, @Args('id') id: string) {
-    return await this.issueReportService.get(id);
+    return await this.issueReportService.get(user.id, id);
   }
 
   @UseGuards(GqlAuthGuard)
