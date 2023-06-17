@@ -55,7 +55,7 @@ export class ChannelCategoryService {
 
     if (channel.authorId !== userId) {
       throw new ForbiddenException(
-        'Only author have access to create categories'
+        'Only author have access to update categories'
       );
     }
 
@@ -84,7 +84,7 @@ export class ChannelCategoryService {
 
     if (channel.authorId !== userId) {
       throw new ForbiddenException(
-        'Only author have access to create categories'
+        'Only author have access to delete categories'
       );
     }
 

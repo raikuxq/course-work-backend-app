@@ -39,6 +39,12 @@ export class CommentService {
   }
 
   async update(userId: string, commentId: string, data: CommentUpdateInput) {
+    const comment = await this.get(commentId);
+
+    if (comment.authorId !== userId) {
+      throw new Error('Only author have access to update comments');
+    }
+
     return await this.prisma.comment.update({
       where: {
         id: commentId,
@@ -50,6 +56,12 @@ export class CommentService {
   }
 
   async delete(userId: string, commentId: string) {
+    const comment = await this.get(commentId);
+
+    if (comment.authorId !== userId) {
+      throw new Error('Only author have access to delete comments');
+    }
+
     return await this.prisma.comment.delete({
       where: {
         id: commentId,
