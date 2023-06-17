@@ -29,7 +29,7 @@ export class TrackerResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => Tracker)
   async tracker(@UserEntity() user: User, @Args('id') id: string) {
-    return await this.trackerService.get(id);
+    return await this.trackerService.get(user.id, id);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -72,7 +72,7 @@ export class TrackerResolver {
       data.role
     );
 
-    return await this.trackerService.get(data.trackerId);
+    return await this.trackerService.get(user.id, data.trackerId);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -88,7 +88,7 @@ export class TrackerResolver {
       data.role
     );
 
-    return await this.trackerService.get(data.trackerId);
+    return await this.trackerService.get(user.id, data.trackerId);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -103,7 +103,7 @@ export class TrackerResolver {
       data.trackerId
     );
 
-    return await this.trackerService.get(data.trackerId);
+    return await this.trackerService.get(user.id, data.trackerId);
   }
 
   @UseGuards(GqlAuthGuard)

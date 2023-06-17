@@ -34,6 +34,15 @@ export class TrackerMemberService {
     trackerId: string,
     role: UserRoleEnum = UserRoleEnum.GUEST
   ) {
+    const currentMemberRole = await this.getMemberRole(
+      trackerId,
+      currentUserId
+    );
+
+    if (currentMemberRole !== UserRoleEnum.QA) {
+      throw new Error('Only QAs have access to add members');
+    }
+
     await this.prisma.issueTrackerMember.create({
       data: {
         userId: userToAddId,
@@ -61,6 +70,15 @@ export class TrackerMemberService {
         userId: userToUpdateId,
       },
     });
+
+    const currentMemberRole = await this.getMemberRole(
+      trackerId,
+      currentUserId
+    );
+
+    if (currentMemberRole !== UserRoleEnum.QA) {
+      throw new Error('Only QAs have access to update members');
+    }
 
     return await this.prisma.issueTrackerMember.update({
       where: {

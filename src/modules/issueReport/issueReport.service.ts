@@ -23,7 +23,10 @@ export class IssueReportService {
       },
     });
 
-    const tracker = await this.trackerService.get(issueReport.trackerId);
+    const tracker = await this.trackerService.get(
+      userId,
+      issueReport.trackerId
+    );
     const channel = await this.channelService.get(userId, tracker.channelId);
     const memberRole = await this.trackerMemberService.getMemberRole(
       tracker.id,
@@ -70,7 +73,10 @@ export class IssueReportService {
     data: IssueReportUpdateInput
   ) {
     const issueReport = await this.get(userId, issueReportId);
-    const tracker = await this.trackerService.get(issueReport.trackerId);
+    const tracker = await this.trackerService.get(
+      userId,
+      issueReport.trackerId
+    );
     const memberRole = await this.trackerMemberService.getMemberRole(
       tracker.id,
       userId
@@ -97,7 +103,10 @@ export class IssueReportService {
 
   async delete(userId: string, issueReportId: string) {
     const issueReport = await this.get(userId, issueReportId);
-    const tracker = await this.trackerService.get(issueReport.trackerId);
+    const tracker = await this.trackerService.get(
+      userId,
+      issueReport.trackerId
+    );
     const member = await this.trackerMemberService.get(tracker.id, userId);
     const role = member.role;
 

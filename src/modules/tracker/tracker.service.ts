@@ -7,12 +7,27 @@ import { TrackerUpdateInput } from './dto/trackerUpdate.input';
 export class TrackerService {
   constructor(private prisma: PrismaService) {}
 
-  async get(trackerId: string) {
-    return this.prisma.issueTracker.findUnique({
+  async get(userId: string, trackerId: string) {
+    const tracker = await this.prisma.issueTracker.findUnique({
       where: {
         id: trackerId,
       },
     });
+    const members = await this.membersResolver(trackerId);
+    const channel = await this.prisma.channel.findUnique({
+      where: { id: tracker.channelId },
+    });
+
+    const isAuthor = channel.authorId === userId;
+    const isMember = members.some(
+      (membersItem) => membersItem.userId === userId
+    );
+
+    if (!isAuthor && !isMember) {
+      throw new Error('Only author and members can get access to this tracker');
+    }
+
+    return tracker;
   }
 
   async create(userId: string, data: TrackerCreateInput) {
