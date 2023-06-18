@@ -39,8 +39,18 @@ export class TrackerMemberService {
       currentUserId
     );
 
-    if (currentMemberRole !== UserRoleEnum.QA) {
-      throw new Error('Only QAs have access to add members');
+    const tracker = await this.prisma.issueTracker.findUnique({
+      where: { id: trackerId },
+    });
+
+    const channel = await this.prisma.channel.findUnique({
+      where: { id: tracker.channelId },
+    });
+
+    const isAuthor = channel.authorId === currentUserId;
+
+    if (currentMemberRole !== UserRoleEnum.QA && !isAuthor) {
+      throw new Error('Only QAs and author have access to add members');
     }
 
     await this.prisma.issueTrackerMember.create({
