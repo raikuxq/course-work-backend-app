@@ -57,7 +57,13 @@ export class ChannelCategoryResolver {
 
   @UseGuards(GqlAuthGuard)
   @ResolveField('trackers')
-  async trackers(@Parent() channelCategory: ChannelCategory) {
-    return this.channelCategoryService.trackersResolver(channelCategory.id);
+  async trackers(
+    @UserEntity() user: User,
+    @Parent() channelCategory: ChannelCategory
+  ) {
+    return this.channelCategoryService.trackersResolver(
+      user.id,
+      channelCategory.id
+    );
   }
 }

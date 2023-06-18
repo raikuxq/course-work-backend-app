@@ -7,10 +7,10 @@ import { ChannelCategoryUpdateInput } from './dto/channelCategoryUpdateInput';
 export class ChannelCategoryService {
   constructor(private prisma: PrismaService) {}
 
-  async get(channelId: string) {
+  async get(channelCategoryId: string) {
     return this.prisma.channelCategory.findUnique({
       where: {
-        id: channelId,
+        id: channelCategoryId,
       },
     });
   }
@@ -101,9 +101,27 @@ export class ChannelCategoryService {
       .channel();
   }
 
-  trackersResolver(channelCategoryId: string) {
-    return this.prisma.issueTracker.findMany({
-      where: { categoryId: channelCategoryId },
+  async trackersResolver(userId: string, channelCategoryId: string) {
+    const channelCategory = await this.get(channelCategoryId);
+    const channel = await this.prisma.channel.findUnique({
+      where: { id: channelCategory.channelId },
+    });
+
+    const matchedTrackers = await this.prisma.issueTracker.findMany({
+      where: { categoryId: channelCategory.id },
+    });
+    const matchedMember = await this.prisma.issueTrackerMember.findMany({
+      where: { userId },
+    });
+    const memberTrackersIds = matchedMember.map(
+      (matchedMemberItem) => matchedMemberItem.trackerId
+    );
+
+    return matchedTrackers.filter((tracker) => {
+      const isMember = memberTrackersIds.includes(tracker.id);
+      const isAuthor = channel.authorId === userId;
+
+      return isMember || isAuthor;
     });
   }
 }
