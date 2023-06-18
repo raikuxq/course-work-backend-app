@@ -137,15 +137,15 @@ enum IssueReportStatus {
   CLOSED
   DISCUSSION
   FULFILMENT
-  READY
+  NEW
   TO_APPROVE
 }
 
 """Issue report type"""
 enum IssueReportType {
   FUNCTIONALITY
+  OTHER
   REPORTING
-  UI
   VULNERABILITY
 }
 

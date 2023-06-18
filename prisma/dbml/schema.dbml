@@ -122,7 +122,7 @@ Enum IssueReportStatus {
   FULFILMENT
   DISCUSSION
   TO_APPROVE
-  READY
+  NEW
   CLOSED
 }
 
@@ -135,7 +135,7 @@ Enum IssueReportPriority {
 
 Enum IssueReportType {
   FUNCTIONALITY
-  UI
+  OTHER
   VULNERABILITY
   REPORTING
 }
